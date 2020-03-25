@@ -26,8 +26,11 @@ export default {
 
 <style>
 .boxst {
-  padding: 8px;
-  margin: 5px;
+
+position:fixed;
+cursor:pointer;
+  padding: 3px;
+  margin: 0px;
 }
 .toolicon {
 }
