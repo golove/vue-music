@@ -110,6 +110,6 @@ _OR_
 
 ## Contributors
 
-- [ChangJoo Park](https://github.com/golove)
-- [ChangJoo Park](https://github.com/laughte)
+- [golove Park](https://github.com/golove)
+- [laughte Park](https://github.com/laughte)
 
