@@ -3,6 +3,7 @@
 ## Todo
 
 - [ ] can login by netEaseMusic
+- [x] animation
 - [x] Movable
 
 ## Befor install
@@ -18,6 +19,16 @@ yarn add axios
 ```js
 // In main.js
 import axios from 'axios'
+axios.interceptors.response.use(
+  response => {
+    console.log(response)
+    if (response.status == 200) {
+      return response.data
+    } else {
+      return "请求错误"
+    }
+  }
+);
 vue.prototype.$axios = axios;
 
 ```

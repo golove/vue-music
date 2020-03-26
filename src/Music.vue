@@ -7,7 +7,11 @@
     class="musicstyle"
     :class="mucflag?'':playListFlag||barflag?'showlist':''"
   >
-    <div v-if="musicdata.playlist" class="barstyle" :class="barflag?'barstyle1':'barstyle2'">
+    <div
+      v-if="musicdata&&musicdata.playlist"
+      class="barstyle"
+      :class="barflag?'barstyle1':'barstyle2'"
+    >
       <img height="85px" width="auto" :src="musicdata.playlist.coverImgUrl" alt />
       <div class="titlestyle">
         <p v-if="tracks.length>0">{{tracks[currentTrackIndex].name}}</p>
@@ -90,15 +94,12 @@
     </div>
 
     <div :class="playListFlag?'liststyle1':'liststyle2'" class="liststyle">
-      <table width="100%" border="0" cellspacing="0" cellpadding="4" class="tabtop1" align="center">
-        <tr>
-          <td colspan="2" rowspan="2"></td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" class="tabtop" align="center">
+        <tr class="etdstyle">
+          <td></td>
           <td>music name</td>
           <td>artist</td>
         </tr>
-      </table>
-      <table width="100%" border="0" cellspacing="0" cellpadding="4" class="tabtop" align="center">
-        <!-- -->
         <tr
           :class="currentTrack.id==item.id?'isactive':index%2==0?'otdstyle':'etdstyle'"
           @dblclick="selectplay(item,index)"
@@ -242,7 +243,7 @@ export default {
       this.timeout = setTimeout(() => {
         this.mucflag = true;
         this.c = "rgba(221,214,223,1)";
-      }, 10000);
+      }, 9000);
       this.timeout1 = setTimeout(() => {
         this.barflag = false;
       }, 7000);
@@ -400,29 +401,30 @@ export default {
       let res = await this.reqSong({
         api: this.playlistapi
       });
-
       this.musicdata = res;
       let idlists = [];
 
       res.playlist.trackIds.forEach(e => {
         idlists.push(e.id);
       });
+      if (idlists.length > 0) {
+        let req = await this.reqSong({
+          api: "song/detail?ids=" + idlists.join(",")
+        });
 
-      let req = await this.reqSong({
-        api: "song/detail?ids=" + idlists.join(",")
-      });
+        this.tracks = req.songs;
 
-      this.tracks = req.songs;
-      let m = await this.reqSong({
-        api: `song/url?id=${req.songs[0].id}`
-      });
+        let m = await this.reqSong({
+          api: `song/url?id=${req.songs[0].id}`
+        });
 
-      this.currentTrack = m.data[0];
+        this.currentTrack = m.data[0];
+      }
     },
 
     async reqSong(json) {
       let res = await this.$axios.get(this.musicserve + json.api);
-      return res.data;
+      return res;
     }
   },
   mounted() {
@@ -491,43 +493,42 @@ export default {
 
 .abstyle {
   margin: 0px;
-  transition: all 0.8s ease;
-  position: fixed;
-  width: 45px;
+  transition: all 0.8s;
   overflow: hidden;
 }
 
 .restyle {
   width: 300px;
   transition: all 0.8s;
+  position: relative;
 }
 .restyle:nth-child(1) {
   margin-left: 0px;
 }
 .restyle:nth-child(2) {
-  margin-left: 70px;
+  margin-left: 30px;
 }
 .restyle:nth-child(3) {
-  margin-left: 140px;
+  margin-left: 30px;
 }
 .restyle:nth-child(4) {
-  margin-left: 210px;
+  margin-left: 30px;
 }
 .restyle:nth-child(5) {
-  margin-left: 290px;
+  margin-left: 30px;
 }
 
 .musictool {
+  padding: 10px;
   position: relative;
 }
 .musictool1 {
-  padding: 8px;
   display: flex;
   justify-content: start;
-  height: 50px;
+  width: 650px;
 }
 .musictool2 {
-  padding: 0px;
+  padding: 0;
   width: 0;
 }
 
