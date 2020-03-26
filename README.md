@@ -1,34 +1,96 @@
-# music
+# vue-music-js
 
-## Project setup
-```
-yarn install
-```
+## Todo
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+- [ ] can login by netEaseMusic
+- [x] Movable
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+## Installation
 
-### Run your tests
-```
-yarn run test
+```bash
+npm install --save vue-music-js
+
+# or Yarn
+yarn add vue-music-js
 ```
 
-### Lints and fixes files
-```
-yarn run lint
+## Usage
+
+```js
+// In main.js
+// ...
+import Music from 'vue-music-js'
+
+Vue.use(Music)
+// ...
 ```
 
-### Run your unit tests
-```
-yarn run test:unit
+```js
+// In component
+// ...
+import { Music } from 'vue-music-js'
+
+export default {
+  components: {
+    Music,
+  }
+}
+// ...
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```Vue
+ <music 
+ :color="'cyan'" 
+ :bgColor="'teal'" 
+ :mColor="'red'"
+ />
+
+```
+
+---
+
+```js
+// on Nuxt.js
+
+// in nuxt.config.js
+plugins: [
+  {
+    src: '~/plugins/vue-music.js', ssr: false
+  }
+],
+
+// in ~/plugins/vue-music.js
+import Vue from 'vue'
+import Music from 'vue-music-js'
+
+Vue.use(Music)
+
+// in your page
+<music />
+
+```
+
+
+
+### props:
+- musicserve:string; webserve providing music services
+- bgColor:sting; change icon backgroundColor
+- color:sting; change icon color
+- mColor:sting; change musicIcon color
+- size:string ; change icon size
+
+## How to Contribute?
+
+1. fork this project.
+2. edit code.
+3. PR
+
+_OR_
+
+1. Just submit a issue!
+
+## Contributors
+
+- [ChangJoo Park](https://github.com/golove)
+- [ChangJoo Park](https://github.com/laughte)
+

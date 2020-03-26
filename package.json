@@ -1,71 +1,51 @@
 {
-  "name": "music",
-  "version": "0.1.0",
-  "private": true,
+  "name": "vue-music-js",
+  "license": "MIT",
+  "author": "golove liuziyu36@gmail.com",
+  "keywords": [
+    "music",
+    "music plugin",
+    "web music",
+    "web music plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/golove/vue-music.git"
+  },
+  "bugs": {
+    "url": "https://github.com/golove/vue-music/issues"
+  },
+  "version": "0.4.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "demo": "vue-cli-service demo",
+    "start": "vue-cli-service serve"
   },
+  "main": "dist/vue-music-js.common.js",
+  "module": "dist/vue-music-js.esm.js",
+  "unpkg": "dist/vue-music-js.umd.min.js",
+  "files": [
+    "dist/vue-music-js.common.js",
+    "dist/vue-music-js.umd.min.js",
+    "dist/vue-music-js.umd.js",
+    "dist/vue-music-js.esm.js",
+    "src"
+  ],
   "dependencies": {
-    "axios": "^0.19.2",
-    "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "core-js": "^3.1.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.0",
-    "@vue/cli-plugin-eslint": "^4.2.0",
-    "@vue/cli-plugin-unit-mocha": "^4.2.0",
-    "@vue/cli-service": "^4.2.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/test-utils": "1.0.0-beta.31",
-    "babel-eslint": "^10.0.3",
-    "chai": "^4.1.2",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-vue": "^6.1.2",
-    "lint-staged": "^9.5.0",
-    "prettier": "^1.19.1",
-    "vue-template-compiler": "^2.6.11"
+    "@vue/cli-plugin-babel": "^3.10.0",
+    "@vue/cli-plugin-eslint": "^3.10.0",
+    "@vue/cli-service": "^3.10.0",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-plugin-vue": "^5.2.3",
+    "vue": "^2.6.10",
+    "vue-cli-plugin-p11n": "^0.3.0",
+    "vue-template-compiler": "^2.6.10"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended",
-      "@vue/prettier"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {},
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        ],
-        "env": {
-          "mocha": true
-        }
-      }
-    ]
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ],
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
-  }
+  "sideeffects": false
 }
