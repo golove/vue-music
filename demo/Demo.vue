@@ -1,5 +1,12 @@
 <template>
   <div class="demo">
-    <music :color="'cyan'" :bgcolor="'teal'" :mColor="'red'"></music>
+    <h1>DEMO</h1>
+    <music></music>
   </div>
 </template>
+<style>
+.demo {
+  width: 800px;
+  margin: 10px auto;
+}
+</style>

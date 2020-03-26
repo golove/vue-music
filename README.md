@@ -59,6 +59,8 @@ export default {
 
 ```Vue
  <music 
+ :musicserve="'http://39.105.168.171:3000/'"
+ :playlistapi="'playlist/detail?id=2801005211'"
  :color="'cyan'" 
  :bgcolor="'teal'" 
  :mColor="'red'"
@@ -88,7 +90,7 @@ Vue.use(Music)
 <music />
 
 ```
-
+![](http://yanxuan.nosdn.127.net/5294c0d51645eae55ff5effdfd76be49.png)
 
 
 ### props:
