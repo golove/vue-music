@@ -452,6 +452,8 @@ export default {
       link.as = "image";
       document.head.appendChild(link);
     }
+
+    this.mucmouseleavefunc();
   },
 
   // http://39.105.168.171:3000/playlist/detail?id=2801005211
@@ -491,7 +493,7 @@ export default {
   margin: 0px;
   transition: all 0.8s ease;
   position: fixed;
-
+  width: 45px;
   overflow: hidden;
 }
 
@@ -516,17 +518,17 @@ export default {
 }
 
 .musictool {
-  padding: 8px;
   position: relative;
 }
 .musictool1 {
+  padding: 8px;
   display: flex;
-  justify: start;
+  justify-content: start;
   height: 50px;
-  width: 100%;
 }
 .musictool2 {
-  width: 0%;
+  padding: 0px;
+  width: 0;
 }
 
 .musicstyle {
@@ -534,10 +536,10 @@ export default {
   position: absolute;
   height: auto;
   transition: background 1s;
-  width: 600px;
   background-attachment: fixed;
   overflow: hidden;
 }
+
 .closelist {
   background: rgba(255, 255, 255, 0);
 }
