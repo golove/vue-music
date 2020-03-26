@@ -5,6 +5,25 @@
 - [ ] can login by netEaseMusic
 - [x] Movable
 
+## Befor install
+
+you shoud install axios at first if your project no axios
+```bash
+npm install --save axios
+
+# or yarn
+yarn add axios
+
+```
+```js
+// In main.js
+import axios from 'axios'
+vue.prototype.$axios = axios;
+
+```
+
+
+
 ## Installation
 
 ```bash
