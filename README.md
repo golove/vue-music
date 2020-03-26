@@ -60,7 +60,7 @@ export default {
 ```Vue
  <music 
  :color="'cyan'" 
- :bgColor="'teal'" 
+ :bgcolor="'teal'" 
  :mColor="'red'"
  />
 
@@ -93,6 +93,7 @@ Vue.use(Music)
 
 ### props:
 - musicserve:string; webserve providing music services
+- playlistapi:string; playlist id
 - bgColor:sting; change icon backgroundColor
 - color:sting; change icon color
 - mColor:sting; change musicIcon color

@@ -1,5 +1,5 @@
 <template>
   <div class="demo">
-    <music :color="'cyan'" :bgColor="'teal'" :mColor="'red'"></music>
+    <music :color="'cyan'" :bgcolor="'teal'" :mColor="'red'"></music>
   </div>
 </template>

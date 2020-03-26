@@ -186,10 +186,15 @@ export default {
   props: {
     musicserve: {
       type: String,
-      default: () => " http://39.105.168.171:3000",
+      default: () => " http://39.105.168.171:3000/",
       required: false
     },
-    bgColor: {
+    playlistapi: {
+      type: String,
+      default: () => "playlist/detail?id=2801005211",
+      required: false
+    },
+    bgcolor: {
       type: String,
       default: () => " rgba(221,214,223,1)",
       required: false
@@ -236,7 +241,7 @@ export default {
     mucmouseleavefunc() {
       this.timeout = setTimeout(() => {
         this.mucflag = true;
-        this.bgcolor = "rgba(221,214,223,1)";
+        this.c = "rgba(221,214,223,1)";
       }, 10000);
       this.timeout1 = setTimeout(() => {
         this.barflag = false;
@@ -251,7 +256,7 @@ export default {
       clearTimeout(this.timeout1);
       clearTimeout(this.timeout2);
       this.mucflag = false;
-      this.bgcolor = "rgba(221,214,223,0.6)";
+      this.c = "rgba(221,214,223,0.6)";
     },
 
     openlist() {
@@ -338,10 +343,10 @@ export default {
     },
 
     async gettrack(id) {
-      let flag = await this.reqSong({ api: `/check/music?id=${id}` });
+      let flag = await this.reqSong({ api: `check/music?id=${id}` });
       if (flag.success) {
         let m = await this.reqSong({
-          api: `/song/url?id=${id}`
+          api: `song/url?id=${id}`
         });
         this.currentTrack = m.data[0];
         this.resetPlayer();
@@ -393,7 +398,7 @@ export default {
 
     async getlist() {
       let res = await this.reqSong({
-        api: "/playlist/detail?id=2801005211"
+        api: this.playlistapi
       });
 
       this.musicdata = res;
@@ -404,12 +409,12 @@ export default {
       });
 
       let req = await this.reqSong({
-        api: "/song/detail?ids=" + idlists.join(",")
+        api: "song/detail?ids=" + idlists.join(",")
       });
 
       this.tracks = req.songs;
       let m = await this.reqSong({
-        api: `/song/url?id=${req.songs[0].id}`
+        api: `song/url?id=${req.songs[0].id}`
       });
 
       this.currentTrack = m.data[0];
