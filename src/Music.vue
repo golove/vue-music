@@ -28,7 +28,7 @@
       <div :style="{width:barWidth}" style="height:3px;background:rgba(250, 30, 30, 0.8)"></div>
     </div>
 
-    <div v-if="audio" class="musictool" :class="!mucflag?'musictool1':'musictool2'">
+    <div v-if="audio" :class="!mucflag?'musictool1':'musictool2'">
       <music-item
         :style="{animationDuration:audio.duration+'s',zIndex:3}"
         :class="mucflag?isTimerPlaying?'cyclingstyle':'abstyle':'restyle'"
@@ -460,6 +460,7 @@ export default {
 </script>
 
 <style scoped>
+/* 按钮样式 */
 .cyclingstyle {
   margin: 0px;
   transition: all 0.8s ease;
@@ -479,23 +480,22 @@ export default {
   }
 }
 
-.inseticon {
-  cursor: pointer;
-  margin-top: 6px;
-  text-align: center;
-  width: 1.2em;
-  height: 1.2em;
-  fill: rgba(255, 255, 255, 0.6);
+.musictool1 {
+  display: flex;
+  padding: 16px;
 }
-
+.musictool2 {
+  display: block;
+}
 .abstyle {
   margin: 0px;
+  width: 0;
+  position: absolute;
   transition: all 0.8s;
   overflow: hidden;
 }
 
 .restyle {
-  width: 300px;
   transition: all 0.8s;
   position: relative;
 }
@@ -520,31 +520,7 @@ export default {
   margin-left: 30px;
 }
 
-.musictool {
-  padding: 10px;
-  position: relative;
-}
-
-.musictool1 {
-  display: flex;
-  justify-content: start;
-  width: 650px;
-}
-
-.musictool2 {
-  padding: 0;
-  width: 0;
-}
-
-.musicstyle {
-  user-select: none;
-  position: absolute;
-  height: auto;
-  transition: background 1s;
-  background-attachment: fixed;
-  overflow: hidden;
-}
-
+/* 背景样式 */
 .closelist {
   background: rgba(255, 255, 255, 0);
 }
@@ -566,14 +542,18 @@ export default {
   );
 }
 
-.active {
-  color: red;
-}
-
+/* 表格相关样式 */
 .isactive {
   background: red;
 }
-
+.inseticon {
+  cursor: pointer;
+  margin-top: 6px;
+  text-align: center;
+  width: 1.2em;
+  height: 1.2em;
+  fill: rgba(255, 255, 255, 0.6);
+}
 .tabtop td {
   height: 25px;
   line-height: 150%;
@@ -621,12 +601,13 @@ p {
 }
 
 .liststyle1 {
-  height: 560px;
+  height: 660px;
   overflow: scroll;
 }
 
 .liststyle2 {
   height: 0;
+  overflow: hidden;
 }
 
 /*滚动条样式*/

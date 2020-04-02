@@ -26,9 +26,6 @@ export default {
 
 <style>
 .boxst {
-  position: fixed;
   cursor: pointer;
-  padding: 3px;
-  margin: 0px;
 }
 </style>
