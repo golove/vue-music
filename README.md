@@ -6,34 +6,6 @@
 - [x] animation
 - [x] Movable
 
-## Befor install
-
-you shoud install axios at first if your project no axios
-```bash
-npm install --save axios
-
-# or yarn
-yarn add axios
-
-```
-```js
-// In main.js
-import axios from 'axios'
-axios.interceptors.response.use(
-  response => {
-    console.log(response)
-    if (response.status == 200) {
-      return response.data
-    } else {
-      return "请求错误"
-    }
-  }
-);
-vue.prototype.$axios = axios;
-
-```
-
-
 
 ## Installation
 
@@ -73,8 +45,8 @@ export default {
  :musicserve="'http://39.105.168.171:3000/'"
  :playlistapi="'playlist/detail?id=2801005211'"
  :color="'cyan'" 
- :bgcolor="'teal'" 
  :mColor="'red'"
+ :size='40'
  />
 
 ```
@@ -107,7 +79,6 @@ Vue.use(Music)
 ### props:
 - musicserve:string; webserve providing music services
 - playlistapi:string; playlist id
-- bgColor:sting; change icon backgroundColor
 - color:sting; change icon color
 - mColor:sting; change musicIcon color
 - size:string ; change icon size

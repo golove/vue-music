@@ -34,63 +34,25 @@
         :class="mucflag?isTimerPlaying?'cyclingstyle':'abstyle':'restyle'"
         :size="size"
         :color="!mucflag?color:mColor"
-        :bgcolor="bgcolor"
+        :bgColor="bgColor"
         @clickfunc="barflag=!barflag"
       >
         <use slot="icon" xlink:href="#music3" />
       </music-item>
 
-      <music-item
-        :class="mucflag?'abstyle':'restyle'"
-        :size="size"
-        :color="color"
-        :bgcolor="bgcolor"
-        @clickfunc="prevTrack"
-      >
-        <use slot="icon" xlink:href="#prev2" />
-      </music-item>
-
-      <music-item
-        :class="mucflag?'abstyle':'restyle'"
-        v-if="isTimerPlaying"
-        :size="size"
-        :color="color"
-        :bgcolor="bgcolor"
-        @clickfunc="play"
-      >
-        <use slot="icon" xlink:href="#pause2" />
-      </music-item>
-
-      <music-item
-        :class="mucflag?'abstyle':'restyle'"
-        v-else
-        :size="size"
-        :color="color"
-        :bgcolor="bgcolor"
-        @clickfunc="play"
-      >
-        <use slot="icon" xlink:href="#play2" />
-      </music-item>
-
-      <music-item
-        :class="mucflag?'abstyle':'restyle'"
-        :size="size"
-        :color="color"
-        :bgcolor="bgcolor"
-        @clickfunc="nextTrack"
-      >
-        <use slot="icon" xlink:href="#next2" />
-      </music-item>
-
-      <music-item
-        :class="mucflag?'abstyle':'restyle'"
-        :size="size"
-        :color="color"
-        :bgcolor="bgcolor"
-        @clickfunc="openlist"
-      >
-        <use slot="icon" xlink:href="#playlist" />
-      </music-item>
+      <template v-for="(item, i) in musicitems">
+        <music-item
+          :key="i"
+          :class="mucflag?'abstyle':'restyle'"
+          :size="size"
+          :color="color"
+          :bgColor="bgColor"
+          @clickfunc="item.act"
+        >
+          <use slot="icon" v-if="item.title" :xlink:href="isTimerPlaying ? '#pause2' : '#play2'" />
+          <use slot="icon" v-else :xlink:href="item.icon" />
+        </music-item>
+      </template>
     </div>
 
     <div :class="playListFlag?'liststyle1':'liststyle2'" class="liststyle">
@@ -182,8 +144,32 @@
 
 <script>
 import musicItem from "./music/musicItem.vue";
+import axios from "axios";
+//respone拦截器==>对响应做处理
+axios.interceptors.response.use(
+  response => {
+    //成功请求到数据
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return "请求错误";
+    }
+  },
+  error => {
+    //响应错误处理
+    if (
+      error.code === "ECONNABORTED" &&
+      error.message.indexOf("timeout") !== -1
+    ) {
+      let originalRequest = error.config;
+      return "error";
+    }
+  }
+);
 export default {
-  components: { musicItem },
+  components: {
+    musicItem
+  },
   props: {
     musicserve: {
       type: String,
@@ -195,11 +181,7 @@ export default {
       default: () => "playlist/detail?id=2801005211",
       required: false
     },
-    bgcolor: {
-      type: String,
-      default: () => " rgba(221,214,223,1)",
-      required: false
-    },
+
     mColor: {
       type: String,
       default: () => "#f44336",
@@ -211,8 +193,8 @@ export default {
       required: false
     },
     size: {
-      type: String,
-      default: () => "35",
+      type: Number,
+      default: () => 35,
       required: false
     }
   },
@@ -223,6 +205,7 @@ export default {
       timeout1: Function,
       timeout2: Function,
       playListFlag: false,
+      bgColor: "rgba(221,214,223,1)",
       mucflag: false,
       selectElement: "",
       audio: null,
@@ -235,14 +218,23 @@ export default {
       tracks: [],
       currentTrack: {},
       currentTrackIndex: 0,
-      transitionName: null
+      transitionName: null,
+      musicitems: [
+        { icon: "#prev2", act: this.prevTrack },
+        {
+          title: "play",
+          act: this.play
+        },
+        { icon: "#next2", act: this.nextTrack },
+        { icon: "#playlist", act: this.openlist }
+      ]
     };
   },
   methods: {
     mucmouseleavefunc() {
       this.timeout = setTimeout(() => {
         this.mucflag = true;
-        this.c = "rgba(221,214,223,1)";
+        this.bgColor = "rgba(221,214,223,1)";
       }, 9000);
       this.timeout1 = setTimeout(() => {
         this.barflag = false;
@@ -257,7 +249,7 @@ export default {
       clearTimeout(this.timeout1);
       clearTimeout(this.timeout2);
       this.mucflag = false;
-      this.c = "rgba(221,214,223,0.6)";
+      this.bgColor = "rgba(221,214,223,0.6)";
     },
 
     openlist() {
@@ -344,7 +336,9 @@ export default {
     },
 
     async gettrack(id) {
-      let flag = await this.reqSong({ api: `check/music?id=${id}` });
+      let flag = await this.reqSong({
+        api: `check/music?id=${id}`
+      });
       if (flag.success) {
         let m = await this.reqSong({
           api: `song/url?id=${id}`
@@ -423,7 +417,7 @@ export default {
     },
 
     async reqSong(json) {
-      let res = await this.$axios.get(this.musicserve + json.api);
+      let res = await axios.get(this.musicserve + json.api);
       return res;
     }
   },
@@ -474,14 +468,17 @@ export default {
   animation-name: cycle;
   animation-iteration-count: 1;
 }
+
 @keyframes cycle {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(26000deg);
   }
 }
+
 .inseticon {
   cursor: pointer;
   margin-top: 6px;
@@ -502,18 +499,23 @@ export default {
   transition: all 0.8s;
   position: relative;
 }
+
 .restyle:nth-child(1) {
   margin-left: 0px;
 }
+
 .restyle:nth-child(2) {
   margin-left: 30px;
 }
+
 .restyle:nth-child(3) {
   margin-left: 30px;
 }
+
 .restyle:nth-child(4) {
   margin-left: 30px;
 }
+
 .restyle:nth-child(5) {
   margin-left: 30px;
 }
@@ -522,11 +524,13 @@ export default {
   padding: 10px;
   position: relative;
 }
+
 .musictool1 {
   display: flex;
   justify-content: start;
   width: 650px;
 }
+
 .musictool2 {
   padding: 0;
   width: 0;
@@ -544,6 +548,7 @@ export default {
 .closelist {
   background: rgba(255, 255, 255, 0);
 }
+
 .showlist {
   background: radial-gradient(
     200% 100% at bottom center,
@@ -560,6 +565,7 @@ export default {
     #f7f7b6
   );
 }
+
 .active {
   color: red;
 }
@@ -567,21 +573,26 @@ export default {
 .isactive {
   background: red;
 }
+
 .tabtop td {
   height: 25px;
   line-height: 150%;
 }
+
 .tabtop1 td {
   height: 25px;
   line-height: 150%;
   background-color: rgba(255, 255, 255, 0.7);
 }
+
 .otdstyle {
   background-color: rgba(255, 255, 255, 0.5);
 }
+
 .etdstyle {
   background-color: rgba(255, 255, 255, 0.7);
 }
+
 h2,
 p {
   margin: 0;
@@ -593,11 +604,13 @@ p {
   transition: all 0.9s ease;
   display: flex;
 }
+
 .barstyle1 {
   padding: 4px;
   height: 90px;
   width: 100%;
 }
+
 .barstyle2 {
   height: 0px;
 }
@@ -606,13 +619,16 @@ p {
   width: 100%;
   transition: height 0.9s ease;
 }
+
 .liststyle1 {
   height: 560px;
   overflow: scroll;
 }
+
 .liststyle2 {
   height: 0;
 }
+
 /*滚动条样式*/
 .liststyle::-webkit-scrollbar {
   /*滚动条整体样式*/
@@ -634,6 +650,7 @@ p {
   border-radius: 5px;
   background: rgba(234, 204, 235, 0.1);
 }
+
 .titlestyle {
   margin-left: 8px;
   text-align: start;

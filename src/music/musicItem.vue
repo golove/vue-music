@@ -1,6 +1,6 @@
 <template>
   <span
-    :style="{background: bgcolor,width:size+'px',height:size+'px',borderRadius:'50%',}"
+    :style="{background: bgColor,width:size+'px',height:size+'px',borderRadius:'50%',padding:'4px'}"
     class="boxst"
   >
     <svg
@@ -16,7 +16,7 @@
 <script>
 export default {
   name: "musicitem",
-  props: { size: null, color: null, bgcolor: null },
+  props: { size: null, color: null, bgColor: null },
   data() {
     return {};
   }
@@ -26,12 +26,9 @@ export default {
 
 <style>
 .boxst {
-
-position:fixed;
-cursor:pointer;
+  position: fixed;
+  cursor: pointer;
   padding: 3px;
   margin: 0px;
-}
-.toolicon {
 }
 </style>

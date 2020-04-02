@@ -34,10 +34,10 @@
     "src"
   ],
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.1.4"
   },
   "devDependencies": {
-    "axios": "^0.19.2",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.10.0",
