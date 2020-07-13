@@ -53,6 +53,9 @@
           <use slot="icon" v-else :xlink:href="item.icon" />
         </music-item>
       </template>
+      <div title="总是显示" v-show="stickyshow" class="offbtn" @click="sticky">
+        <div class="btninside" :class="stickyflag?'on':'off'"></div>
+      </div>
     </div>
 
     <div :class="playListFlag?'liststyle1':'liststyle2'" class="liststyle">
@@ -201,6 +204,8 @@ export default {
   data() {
     return {
       barflag: true,
+      stickyflag: false,
+      stickyshow:false,
       timeout: Function,
       timeout1: Function,
       timeout2: Function,
@@ -232,24 +237,34 @@ export default {
   },
   methods: {
     mucmouseleavefunc() {
-      this.timeout = setTimeout(() => {
-        this.mucflag = true;
-        this.bgColor = "rgba(221,214,223,1)";
-      }, 9000);
-      this.timeout1 = setTimeout(() => {
-        this.barflag = false;
-      }, 7000);
+      if (!this.stickyflag) {
+        this.timeout = setTimeout(() => {
+          this.mucflag = true;
+          this.bgColor = "rgba(221,214,223,1)";
+        }, 9000);
+        this.timeout1 = setTimeout(() => {
+          this.barflag = false;
+        }, 7000);
 
-      this.timeout2 = setTimeout(() => {
-        this.playListFlag = false;
-      }, 4000);
+        this.timeout2 = setTimeout(() => {
+          this.playListFlag = false;
+        }, 4000);
+      }
+      this.stickyshow = false;
     },
     mucmouseenterfunc() {
-      clearTimeout(this.timeout);
-      clearTimeout(this.timeout1);
-      clearTimeout(this.timeout2);
-      this.mucflag = false;
-      this.bgColor = "rgba(221,214,223,0.6)";
+      if (!this.stickyflag) {
+        clearTimeout(this.timeout);
+        clearTimeout(this.timeout1);
+        clearTimeout(this.timeout2);
+        this.mucflag = false;
+        this.bgColor = "rgba(221,214,223,0.6)";
+      }
+
+      this.stickyshow = true;
+    },
+    sticky() {
+      this.stickyflag = !this.stickyflag;
     },
 
     openlist() {
@@ -381,8 +396,16 @@ export default {
       let distanceY = event.clientY - this.selectElement.offsetTop;
       document.onmousemove = function(ev) {
         let oevent = ev || event;
-        div1.style.left = oevent.clientX - distanceX + "px";
-        div1.style.top = oevent.clientY - distanceY + "px";
+        if (oevent.clientX - distanceX < 40) {
+          div1.style.left = 0;
+        } else {
+          div1.style.left = oevent.clientX - distanceX + "px";
+        }
+        if (oevent.clientY - distanceY < 40) {
+          div1.style.top = 0;
+        } else {
+          div1.style.top = oevent.clientY - distanceY + "px";
+        }
       };
       document.onmouseup = function() {
         document.onmousemove = null;
@@ -460,6 +483,40 @@ export default {
 </script>
 
 <style scoped>
+.offbtn {
+  border-style: none;
+  cursor: pointer;
+  height: 15px;
+  width: 30px;
+  border-radius: 7.5px;
+  padding: 0;
+  background-color: rgba(204, 204, 204, 0.6);
+  overflow: hidden;
+  position: relative;
+}
+.offbtn .btninside {
+  width: 50%;
+  height: 100%;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0%;
+  transition: all 0.3s ease-in-out;
+  background-color: #e96f92;
+}
+.offbtn .on {
+  left: 50%;
+}
+.offbtn .on::before {
+  text-align: center;
+  position: absolute;
+}
+.offbtn .off {
+  left: 0%;
+}
+.offbtn .off::before {
+  position: absolute;
+}
 /* 按钮样式 */
 .cyclingstyle {
   margin: 0px;
@@ -553,6 +610,9 @@ export default {
   width: 1.2em;
   height: 1.2em;
   fill: rgba(255, 255, 255, 0.6);
+}
+.tabtop tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 .tabtop td {
   height: 25px;
